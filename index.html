@@ -1,84 +1,482 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jihad — Web Developer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Jihad - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <meta name="description" content="I'm a web developer focused on building simple, calm, and reliable web interfaces." />
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --text-primary: #e8e8f0;
+            --text-secondary: #9090a8;
+            --accent-primary: #00ff9f;
+            --accent-secondary: #0080ff;
+            --border-color: #252530;
+        }
 
-  <link rel="stylesheet" href="style.css" />
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            background: 
+                radial-gradient(circle at 20% 50%, var(--accent-primary) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, var(--accent-secondary) 0%, transparent 50%);
+            animation: bgPulse 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(5%, 5%); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            padding: 4rem 0 2rem;
+            border-bottom: 1px solid var(--border-color);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 3rem 0 4rem;
+            animation: fadeIn 1.2s ease-out 0.3s backwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-primary);
+            margin-bottom: 2rem;
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 0 30px rgba(0, 255, 159, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            border-color: var(--accent-primary);
+            background: rgba(0, 255, 159, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 159, 0.2);
+        }
+
+        /* Projects Section */
+        .section {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border-color);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            color: var(--text-primary);
+        }
+
+        .projects-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateX(10px);
+            box-shadow: -10px 10px 30px rgba(0, 255, 159, 0.1);
+        }
+
+        .project-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .project-meta {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .social-links {
+                flex-wrap: wrap;
+            }
+
+            .project-card:hover {
+                transform: translateX(0) translateY(-5px);
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            z-index: 100;
+            transform-origin: left;
+        }
+    </style>
 </head>
 <body>
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    <div class="bg-animation"></div>
+    
+    <div class="container">
+        <header>
+            <nav>
+                <a href="/" class="logo">HelloJihad</a>
+                <ul class="nav-links">
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
 
-  <main class="container">
+            <div class="hero">
+                <img src="https://github.com/hellojihad.png" alt="HelloJihad" class="avatar">
+                <h1>Hi, I'm <span class="gradient-text">@hellojihad</span></h1>
+                <p class="tagline">
+                    Building digital experiences from code to creativity.<br>
+                    Every project is an experiment in possibility.
+                </p>
+                
+                <div class="social-links">
+                    <a href="https://github.com/hellojihad" class="social-btn" target="_blank">
+                        <span>→</span> GitHub
+                    </a>
+                    <a href="https://twitter.com/hellojihaad" class="social-btn" target="_blank">
+                        <span>→</span> Twitter
+                    </a>
+                    <a href="mailto:hello@hellojihaad.me" class="social-btn">
+                        <span>→</span> Email
+                    </a>
+                </div>
+            </div>
+        </header>
 
-    <!-- Intro -->
-    <section class="intro">
-      <h1>Hi, I’m Jihad.</h1>
-      <p class="intro-text">
-        I build simple and reliable web interfaces with a focus on clarity,
-        usability, and long-term maintainability.
-      </p>
-    </section>
+        <section class="section" id="projects">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <article class="project-card">
+                    <h3 class="project-title">Project Alpha</h3>
+                    <div class="project-meta">Built with React • 2025</div>
+                    <p class="project-description">
+                        A modern web application that reimagines user interaction through intuitive design and seamless functionality. Focusing on performance and accessibility.
+                    </p>
+                </article>
 
-    <!-- About -->
-    <section>
-      <p>
-        I’m a student and aspiring web developer. I enjoy working close to the
-        fundamentals—HTML, CSS, and JavaScript—and I care about writing code
-        that is easy to read, easy to change, and easy to maintain.
-      </p>
+                <article class="project-card">
+                    <h3 class="project-title">CodeLab Experiment</h3>
+                    <div class="project-meta">Python & Machine Learning • 2024</div>
+                    <p class="project-description">
+                        Exploring the intersection of artificial intelligence and creative coding. An experimental project pushing the boundaries of what's possible with ML.
+                    </p>
+                </article>
 
-      <p>
-        I prefer calm design, minimal interfaces, and tools that solve real
-        problems without unnecessary complexity.
-      </p>
-    </section>
+                <article class="project-card">
+                    <h3 class="project-title">Digital Canvas</h3>
+                    <div class="project-meta">JavaScript & Canvas API • 2024</div>
+                    <p class="project-description">
+                        An interactive art platform where code meets creativity. Users can create generative art through simple, expressive interfaces.
+                    </p>
+                </article>
 
-    <!-- Projects -->
-    <section>
-      <h2>Selected Work</h2>
+                <article class="project-card">
+                    <h3 class="project-title">Open Source Contributions</h3>
+                    <div class="project-meta">Various Technologies • Ongoing</div>
+                    <p class="project-description">
+                        Contributing to the open source community through bug fixes, feature additions, and documentation improvements across multiple projects.
+                    </p>
+                </article>
+            </div>
+        </section>
 
-      <div class="item">
-        <strong>Personal Portfolio</strong> — A quiet personal website to
-        document my work and thoughts on the web.
-      </div>
+        <section class="section" id="about">
+            <h2 class="section-title">About Me</h2>
+            <p class="tagline" style="max-width: 700px;">
+                I'm a developer passionate about creating meaningful digital experiences. 
+                I believe in clean code, thoughtful design, and the power of open source. 
+                When I'm not coding, you'll find me exploring new technologies and contributing to the community.
+            </p>
+        </section>
 
-      <div class="item">
-        <strong>Todo App</strong> — A small JavaScript application for managing
-        daily tasks using local storage.
-      </div>
+        <footer id="contact">
+            <p>
+                Built with ❤️ by HelloJihad • 
+                <a href="https://github.com/hellojihad/hellojihad.github.io" target="_blank">View Source</a> • 
+                Hosted on <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+            </p>
+        </footer>
+    </div>
 
-      <div class="item">
-        <strong>Notes App</strong> — A minimal note-taking interface focused on
-        writing without distractions.
-      </div>
-    </section>
+    <script>
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const indicator = document.getElementById('scrollIndicator');
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            indicator.style.width = scrolled + '%';
+        });
 
-    <!-- Contact -->
-    <section>
-      <h2>Contact</h2>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
-      <p>
-        You can reach me via email or find my work on GitHub.
-      </p>
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
 
-      <p class="links">
-        <a href="mailto:youremail@example.com">Email</a>
-        <a href="https://github.com/hellojihad" target="_blank">GitHub</a>
-      </p>
-    </section>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
 
-    <!-- Footer -->
-    <footer>
-      <p>
-        © Jihad — Built with HTML & CSS. <br />
-        Design inspired by <a href="https://steipete.me/" target="_blank">steipete.me</a>.
-      </p>
-    </footer>
-
-  </main>
-
+        document.querySelectorAll('.project-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+            observer.observe(card);
+        });
+    </script>
 </body>
 </html>
