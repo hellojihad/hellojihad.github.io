@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hellojihad - Portfolio</title>
-    <meta name="description" content="hellojihad's portfolio - Building digital experiences from code to creativity">
+    <title>hellojihad - MERN Stack Developer</title>
+    <meta name="description" content="Full-stack MERN developer crafting scalable web applications with MongoDB, Express, React, and Node.js">
+    <meta name="author" content="hellojihad">
+    <meta name="theme-color" content="#0a0a0f">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
     <style>
+        /* ========== RESET & BASE ========== */
         * {
             margin: 0;
             padding: 0;
@@ -23,10 +29,15 @@
             --accent-primary: #00ff9f;
             --accent-secondary: #0080ff;
             --border-color: #252530;
+            --mongodb: #47A248;
+            --express: #ffffff;
+            --react: #61DAFB;
+            --node: #339933;
         }
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
@@ -38,9 +49,15 @@
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
         }
 
-        /* Animated background */
+        /* Fallback for when fonts don't load */
+        body {
+            font-family: 'IBM Plex Mono', 'Courier New', Consolas, Monaco, monospace;
+        }
+
+        /* ========== ANIMATED BACKGROUND ========== */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -53,6 +70,7 @@
                 radial-gradient(circle at 20% 50%, var(--accent-primary) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, var(--accent-secondary) 0%, transparent 50%);
             animation: bgPulse 15s ease-in-out infinite alternate;
+            will-change: transform;
         }
 
         @keyframes bgPulse {
@@ -60,7 +78,21 @@
             100% { transform: scale(1.1) translate(5%, 5%); }
         }
 
-        /* Container */
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .bg-animation {
+                animation: none;
+            }
+            
+            .avatar,
+            .project-card,
+            .skill-category {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* ========== CONTAINER ========== */
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -69,7 +101,7 @@
             z-index: 1;
         }
 
-        /* Header */
+        /* ========== HEADER ========== */
         header {
             padding: 4rem 0 2rem;
             border-bottom: 1px solid var(--border-color);
@@ -108,6 +140,13 @@
             letter-spacing: -0.02em;
         }
 
+        /* Fallback if gradient text doesn't work */
+        @supports not (background-clip: text) {
+            .logo {
+                color: var(--accent-primary);
+            }
+        }
+
         .nav-links {
             display: flex;
             gap: 2rem;
@@ -126,8 +165,10 @@
             padding-bottom: 4px;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links a:focus {
             color: var(--accent-primary);
+            outline: none;
         }
 
         .nav-links a::after {
@@ -141,11 +182,12 @@
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover::after {
+        .nav-links a:hover::after,
+        .nav-links a:focus::after {
             width: 100%;
         }
 
-        /* Hero Section */
+        /* ========== HERO SECTION ========== */
         .hero {
             padding: 3rem 0 4rem;
             animation: fadeIn 1.2s ease-out 0.3s backwards;
@@ -173,6 +215,15 @@
             object-fit: cover;
         }
 
+        /* Fallback if image fails to load */
+        .avatar[alt]::after {
+            content: attr(alt);
+            display: block;
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-secondary);
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -180,7 +231,7 @@
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 900;
             line-height: 1.1;
             margin-bottom: 1.5rem;
@@ -194,14 +245,51 @@
             background-clip: text;
         }
 
+        @supports not (background-clip: text) {
+            .gradient-text {
+                color: var(--accent-primary);
+            }
+        }
+
         .tagline {
-            font-size: 1.125rem;
+            font-size: clamp(1rem, 2vw, 1.125rem);
             color: var(--text-secondary);
             margin-bottom: 2rem;
             line-height: 1.8;
         }
 
-        /* Social Links */
+        /* ========== MERN STACK BADGES ========== */
+        .mern-stack {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .tech-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 159, 0.2);
+        }
+
+        .tech-badge.mongodb { border-color: var(--mongodb); }
+        .tech-badge.express { border-color: var(--express); }
+        .tech-badge.react { border-color: var(--react); }
+        .tech-badge.node { border-color: var(--node); }
+
+        /* ========== SOCIAL LINKS ========== */
         .social-links {
             display: flex;
             gap: 1rem;
@@ -229,18 +317,21 @@
             flex-shrink: 0;
         }
 
-        .social-btn:hover {
+        .social-btn:hover,
+        .social-btn:focus {
             border-color: var(--accent-primary);
             background: rgba(0, 255, 159, 0.1);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 255, 159, 0.2);
+            outline: none;
         }
 
-        .social-btn:hover svg {
+        .social-btn:hover svg,
+        .social-btn:focus svg {
             transform: scale(1.1);
         }
 
-        /* Section */
+        /* ========== SECTIONS ========== */
         .section {
             padding: 4rem 0;
             border-top: 1px solid var(--border-color);
@@ -248,13 +339,13 @@
 
         .section-title {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 700;
             margin-bottom: 2.5rem;
             color: var(--text-primary);
         }
 
-        /* Projects Grid */
+        /* ========== PROJECTS GRID ========== */
         .projects-grid {
             display: grid;
             gap: 2rem;
@@ -283,11 +374,13 @@
             transition: transform 0.4s ease;
         }
 
-        .project-card:hover::before {
+        .project-card:hover::before,
+        .project-card:focus-within::before {
             transform: scaleX(1);
         }
 
-        .project-card:hover {
+        .project-card:hover,
+        .project-card:focus-within {
             border-color: var(--accent-primary);
             transform: translateX(10px);
             box-shadow: -10px 10px 30px rgba(0, 255, 159, 0.1);
@@ -295,7 +388,7 @@
 
         .project-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
             font-weight: 700;
             margin-bottom: 0.5rem;
             color: var(--text-primary);
@@ -310,9 +403,65 @@
         .project-description {
             color: var(--text-secondary);
             line-height: 1.7;
+            margin-bottom: 1rem;
         }
 
-        /* Footer */
+        .project-tech {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            padding: 0.25rem 0.75rem;
+            background: rgba(0, 255, 159, 0.1);
+            border: 1px solid var(--accent-primary);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+        }
+
+        /* ========== SKILLS SECTION ========== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-category {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 12px rgba(0, 255, 159, 0.1);
+        }
+
+        .skill-category h3 {
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        .skill-category ul {
+            list-style: none;
+        }
+
+        .skill-category li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .skill-category li:last-child {
+            border-bottom: none;
+        }
+
+        /* ========== FOOTER ========== */
         footer {
             padding: 3rem 0;
             margin-top: 4rem;
@@ -328,11 +477,13 @@
             transition: color 0.3s ease;
         }
 
-        footer a:hover {
+        footer a:hover,
+        footer a:focus {
             color: var(--accent-secondary);
+            text-decoration: underline;
         }
 
-        /* Progress Indicator */
+        /* ========== SCROLL INDICATOR ========== */
         .scroll-indicator {
             position: fixed;
             top: 0;
@@ -343,16 +494,18 @@
             transform-origin: left;
             transition: width 0.1s ease;
             width: 0;
+            pointer-events: none;
         }
 
-        /* Responsive Design */
+        /* ========== RESPONSIVE DESIGN ========== */
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
             }
 
-            h1 {
-                font-size: 2.5rem;
+            nav {
+                flex-direction: column;
+                gap: 1rem;
             }
 
             .nav-links {
@@ -384,76 +537,119 @@
             .section {
                 padding: 3rem 0;
             }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mern-stack {
+                justify-content: center;
+            }
         }
 
         @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .logo {
-                font-size: 1.25rem;
-            }
-
-            .tagline {
-                font-size: 1rem;
+            .container {
+                padding: 0.75rem;
             }
 
             .nav-links {
                 gap: 0.5rem;
             }
 
-            .section-title {
-                font-size: 1.5rem;
+            header {
+                padding: 2rem 0 1rem;
             }
 
-            .project-title {
-                font-size: 1.25rem;
+            .hero {
+                padding: 2rem 0 3rem;
+            }
+
+            .section {
+                padding: 2rem 0;
+            }
+        }
+
+        /* ========== PRINT STYLES ========== */
+        @media print {
+            .bg-animation,
+            .scroll-indicator {
+                display: none;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .project-card,
+            .skill-category {
+                page-break-inside: avoid;
             }
         }
     </style>
 </head>
 <body>
     <!-- Progress Indicator -->
-    <div class="scroll-indicator" id="scrollIndicator"></div>
+    <div class="scroll-indicator" id="scrollIndicator" role="progressbar" aria-label="Page scroll progress"></div>
     
     <!-- Animated Background -->
-    <div class="bg-animation"></div>
+    <div class="bg-animation" aria-hidden="true"></div>
     
     <div class="container">
         <header>
-            <nav>
-                <a href="/" class="logo">hellojihad</a>
+            <nav role="navigation">
+                <a href="/" class="logo" aria-label="hellojihad home">hellojihad</a>
                 <ul class="nav-links">
                     <li><a href="#projects">Projects</a></li>
+                    <li><a href="#skills">Skills</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
 
             <div class="hero">
-                <img src="https://github.com/hellojihad.png" alt="hellojihad" class="avatar">
+                <img src="https://github.com/hellojihad.png" 
+                     alt="hellojihad profile" 
+                     class="avatar"
+                     loading="lazy"
+                     onerror="this.style.display='none'">
                 <h1>Hi, I'm <span class="gradient-text">@hellojihad</span></h1>
                 <p class="tagline">
-                    Building digital experiences from code to creativity.<br>
-                    Every project is an experiment in possibility.
+                    Full-Stack MERN Developer crafting scalable web applications.<br>
+                    Turning ideas into powerful, production-ready solutions.
                 </p>
+
+                <!-- MERN Stack Badges -->
+                <div class="mern-stack" role="list" aria-label="MERN Stack Technologies">
+                    <div class="tech-badge mongodb" role="listitem">
+                        <span style="color: #47A248;" aria-hidden="true">●</span> MongoDB
+                    </div>
+                    <div class="tech-badge express" role="listitem">
+                        <span style="color: #ffffff;" aria-hidden="true">●</span> Express.js
+                    </div>
+                    <div class="tech-badge react" role="listitem">
+                        <span style="color: #61DAFB;" aria-hidden="true">●</span> React
+                    </div>
+                    <div class="tech-badge node" role="listitem">
+                        <span style="color: #339933;" aria-hidden="true">●</span> Node.js
+                    </div>
+                </div>
                 
                 <div class="social-links">
-                    <a href="https://github.com/hellojihad" class="social-btn" target="_blank" rel="noopener" aria-label="GitHub">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <a href="https://github.com/hellojihad" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                         </svg>
                         GitHub
                     </a>
-                    <a href="https://twitter.com/hellojihaad" class="social-btn" target="_blank" rel="noopener" aria-label="Twitter">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <a href="https://twitter.com/hellojihaad" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Twitter Profile">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                         </svg>
                         Twitter
                     </a>
-                    <a href="https://www.linkedin.com/in/hello-jihad/" class="social-btn" target="_blank" rel="noopener" aria-label="LinkedIn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <a href="https://www.linkedin.com/in/hello-jihad/" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                         </svg>
                         LinkedIn
@@ -462,108 +658,287 @@
             </div>
         </header>
 
+        <!-- Projects Section -->
         <section class="section" id="projects">
-            <h2 class="section-title">Featured Projects</h2>
+            <h2 class="section-title">Featured MERN Projects</h2>
             <div class="projects-grid">
                 <article class="project-card">
-                    <h3 class="project-title">Project Alpha</h3>
-                    <div class="project-meta">Built with React • 2025</div>
+                    <h3 class="project-title">E-Commerce Platform</h3>
+                    <div class="project-meta">Full-Stack Application • 2025</div>
                     <p class="project-description">
-                        A modern web application that reimagines user interaction through intuitive design and seamless functionality. Focusing on performance and accessibility.
+                        A complete e-commerce solution with user authentication, product management, shopping cart, payment integration (Stripe), and admin dashboard. Built with scalability and performance in mind.
                     </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Express</span>
+                        <span class="tech-tag">Redux</span>
+                        <span class="tech-tag">Stripe API</span>
+                    </div>
                 </article>
 
                 <article class="project-card">
-                    <h3 class="project-title">CodeLab Experiment</h3>
-                    <div class="project-meta">Python & Machine Learning • 2024</div>
+                    <h3 class="project-title">Real-Time Chat Application</h3>
+                    <div class="project-meta">WebSocket & MERN Stack • 2024</div>
                     <p class="project-description">
-                        Exploring the intersection of artificial intelligence and creative coding. An experimental project pushing the boundaries of what's possible with ML.
+                        Real-time messaging platform with Socket.io, featuring private and group chats, file sharing, typing indicators, and online status. Implemented JWT authentication and message encryption.
                     </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Socket.io</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">JWT</span>
+                    </div>
                 </article>
 
                 <article class="project-card">
-                    <h3 class="project-title">Digital Canvas</h3>
-                    <div class="project-meta">JavaScript & Canvas API • 2024</div>
+                    <h3 class="project-title">Task Management System</h3>
+                    <div class="project-meta">Productivity Tool • 2024</div>
                     <p class="project-description">
-                        An interactive art platform where code meets creativity. Users can create generative art through simple, expressive interfaces.
+                        Collaborative task management application with drag-and-drop boards, team workspaces, real-time updates, and analytics dashboard. Features include task assignments, due dates, and priority levels.
                     </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">DnD Kit</span>
+                        <span class="tech-tag">Express</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Chart.js</span>
+                    </div>
                 </article>
 
                 <article class="project-card">
-                    <h3 class="project-title">Open Source Contributions</h3>
-                    <div class="project-meta">Various Technologies • Ongoing</div>
+                    <h3 class="project-title">Social Media Dashboard</h3>
+                    <div class="project-meta">Analytics Platform • 2024</div>
                     <p class="project-description">
-                        Contributing to the open source community through bug fixes, feature additions, and documentation improvements across multiple projects.
+                        Social media management tool with post scheduling, analytics tracking, and multi-platform integration. Features beautiful data visualizations and automated reporting.
                     </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">REST API</span>
+                        <span class="tech-tag">D3.js</span>
+                    </div>
                 </article>
             </div>
         </section>
 
+        <!-- Skills Section -->
+        <section class="section" id="skills">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Frontend</h3>
+                    <ul>
+                        <li>React.js & React Hooks</li>
+                        <li>Redux & Context API</li>
+                        <li>Next.js</li>
+                        <li>HTML5 & CSS3</li>
+                        <li>Tailwind CSS</li>
+                        <li>JavaScript (ES6+)</li>
+                        <li>TypeScript</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Backend</h3>
+                    <ul>
+                        <li>Node.js</li>
+                        <li>Express.js</li>
+                        <li>RESTful APIs</li>
+                        <li>GraphQL</li>
+                        <li>Socket.io</li>
+                        <li>JWT Authentication</li>
+                        <li>Middleware Development</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Database</h3>
+                    <ul>
+                        <li>MongoDB</li>
+                        <li>Mongoose ODM</li>
+                        <li>PostgreSQL</li>
+                        <li>Redis (Caching)</li>
+                        <li>Database Design</li>
+                        <li>Query Optimization</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>DevOps & Tools</h3>
+                    <ul>
+                        <li>Git & GitHub</li>
+                        <li>Docker</li>
+                        <li>AWS / Heroku</li>
+                        <li>CI/CD Pipelines</li>
+                        <li>Nginx</li>
+                        <li>VS Code</li>
+                        <li>Postman</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
         <section class="section" id="about">
             <h2 class="section-title">About Me</h2>
             <p class="tagline" style="max-width: 700px;">
-                I'm a developer passionate about creating meaningful digital experiences. 
-                I believe in clean code, thoughtful design, and the power of open source. 
-                When I'm not coding, you'll find me exploring new technologies and contributing to the community.
+                I'm a passionate MERN Stack Developer with expertise in building full-stack web applications. 
+                I specialize in creating scalable, performant solutions using MongoDB, Express.js, React, and Node.js. 
+                From database design to responsive frontends, I love turning complex problems into elegant code. 
+                Always learning, always building, and always pushing the boundaries of what's possible with JavaScript.
             </p>
         </section>
 
         <footer id="contact">
             <p>
-                Built with ❤️ by hellojihad • 
-                <a href="https://github.com/hellojihad/hellojihad.github.io" target="_blank" rel="noopener">View Source</a> • 
-                Hosted on <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>
+                Built with ❤️ by hellojihad • MERN Stack Developer • 
+                <a href="https://github.com/hellojihad/hellojihad.github.io" target="_blank" rel="noopener noreferrer">View Source</a> • 
+                Hosted on <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">GitHub Pages</a>
             </p>
         </footer>
     </div>
 
     <script>
-        // Progress Indicator
-        window.addEventListener('scroll', () => {
-            const indicator = document.getElementById('scrollIndicator');
-            if (indicator) {
-                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = (window.scrollY / windowHeight) * 100;
-                indicator.style.width = scrolled + '%';
+        // Strict mode for better error catching
+        'use strict';
+
+        // Error handler wrapper
+        function safeExecute(fn, errorMsg) {
+            try {
+                fn();
+            } catch (error) {
+                console.error(errorMsg, error);
             }
-        });
+        }
 
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+        // Progress Indicator with error handling
+        safeExecute(() => {
+            const indicator = document.getElementById('scrollIndicator');
+            
+            if (!indicator) {
+                console.warn('Scroll indicator element not found');
+                return;
+            }
+
+            window.addEventListener('scroll', () => {
+                try {
+                    const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    if (windowHeight > 0) {
+                        const scrolled = (window.scrollY / windowHeight) * 100;
+                        indicator.style.width = Math.min(100, Math.max(0, scrolled)) + '%';
+                    }
+                } catch (error) {
+                    console.error('Scroll indicator error:', error);
                 }
+            }, { passive: true });
+        }, 'Failed to initialize scroll indicator');
+
+        // Smooth Scroll with error handling
+        safeExecute(() => {
+            const links = document.querySelectorAll('a[href^="#"]');
+            
+            if (!links || links.length === 0) {
+                console.warn('No internal links found');
+                return;
+            }
+
+            links.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    try {
+                        const href = this.getAttribute('href');
+                        if (!href || href === '#') return;
+                        
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        } else {
+                            console.warn(`Target element ${href} not found`);
+                        }
+                    } catch (error) {
+                        console.error('Smooth scroll error:', error);
+                    }
+                });
             });
-        });
+        }, 'Failed to initialize smooth scroll');
 
-        // Intersection Observer for fade-in
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
+        // Intersection Observer for animations with error handling
+        safeExecute(() => {
+            // Check if IntersectionObserver is supported
+            if (!('IntersectionObserver' in window)) {
+                console.warn('IntersectionObserver not supported, skipping animations');
+                return;
+            }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
 
-        // Animate project cards on scroll
-        document.querySelectorAll('.project-card').forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = `all 0.6s ease ${index * 0.1}s`;
-            observer.observe(card);
-        });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    try {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    } catch (error) {
+                        console.error('Observer callback error:', error);
+                    }
+                });
+            }, observerOptions);
+
+            // Animate elements
+            const elements = document.querySelectorAll('.project-card, .skill-category');
+            
+            if (elements && elements.length > 0) {
+                elements.forEach((element, index) => {
+                    try {
+                        element.style.opacity = '0';
+                        element.style.transform = 'translateY(30px)';
+                        element.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                        observer.observe(element);
+                    } catch (error) {
+                        console.error('Element animation setup error:', error);
+                    }
+                });
+            }
+        }, 'Failed to initialize intersection observer');
+
+        // Image error handling
+        safeExecute(() => {
+            const avatar = document.querySelector('.avatar');
+            if (avatar) {
+                avatar.addEventListener('error', function() {
+                    console.warn('Avatar image failed to load');
+                    this.style.display = 'none';
+                });
+            }
+        }, 'Failed to setup image error handling');
+
+        // Performance monitoring (optional)
+        if ('PerformanceObserver' in window) {
+            try {
+                const observer = new PerformanceObserver((list) => {
+                    for (const entry of list.getEntries()) {
+                        if (entry.loadTime > 3000) {
+                            console.warn(`Slow load detected: ${entry.name}`);
+                        }
+                    }
+                });
+                observer.observe({ entryTypes: ['resource'] });
+            } catch (error) {
+                console.log('Performance monitoring not available');
+            }
+        }
     </script>
 </body>
 </html>
